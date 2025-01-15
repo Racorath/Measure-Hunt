@@ -27,6 +27,7 @@ k.scene("main-menu", () => {
 });
 
 k.scene("game", () => {
+  k.setCursor("none");
   k.add([k.rect(k.width(), k.height()), k.color(k.Color.fromHex(COLORS.BLUE))]);
 
   k.add([k.sprite("background"), k.pos(0, -10)]);
