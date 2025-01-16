@@ -59,7 +59,13 @@ export default class Dog {
     });
 
     this.gameObj.onStateUpdate("drop", () => {
-      this.gameObj.move(0, 60);
+      k.tween(
+        this.gameObj.pos.y,
+        150,
+        0.5,
+        (nextValue) => (this.gameObj.pos.y = nextValue),
+        k.easings.linear
+      );
     });
   }
 }

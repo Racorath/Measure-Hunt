@@ -30,12 +30,11 @@ k.scene("game", () => {
   k.add([k.rect(k.width(), k.height()), k.color(k.Color.fromHex(COLORS.BLUE))]);
   k.add([k.sprite("background"), k.pos(0, -10), k.z(1)]);
 
-  // k.add([k.sprite("dog", { anim: "searching" }), k.pos(-64, k.center().y)]);
   const dog = new Dog(k.vec2(0, k.center().y));
   dog.setDogAI();
 
   const cursor = k.add([
-    k.sprite("cursor"), // sprite
+    k.sprite("cursor"),
     k.anchor("center"),
     k.pos(),
     k.z(3),
