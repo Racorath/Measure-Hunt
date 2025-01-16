@@ -11,6 +11,8 @@ export function loadAssets() {
     anims: {
       search: { from: 0, to: 3, speed: 6, loop: true },
       snif: { from: 4, to: 5, speed: 4, loop: true },
+      detect: 6,
+      jump: { from: 7, to: 8, speed: 6 },
     },
   });
 }

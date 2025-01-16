@@ -1,13 +1,14 @@
 import k from "../kaplayCtx";
 
 export default class Dog {
-  speed = 30;
+  speed = 15;
 
   constructor(position) {
     this.gameObj = k.add([
       k.sprite("dog"),
       k.pos(position),
-      k.state("search", ["search", "snif", "detect", "jump"]),
+      k.state("search", ["search", "snif", "detect", "jump", "drop"]),
+      k.z(2),
     ]);
 
     return this;
@@ -18,12 +19,6 @@ export default class Dog {
     this.gameObj.onStateEnter("search", () => {
       this.gameObj.play("search");
       k.wait(2, () => {
-        k.debug.log(nbSnifs);
-        if (nbSnifs === 2) {
-          this.gameObj.enterState("detect");
-          return;
-        }
-
         this.gameObj.enterState("snif");
       });
     });
@@ -36,8 +31,35 @@ export default class Dog {
       nbSnifs++;
       this.gameObj.play("snif");
       k.wait(2, () => {
+        if (nbSnifs === 2) {
+          this.gameObj.enterState("detect");
+          return;
+        }
         this.gameObj.enterState("search");
       });
+    });
+
+    this.gameObj.onStateEnter("detect", () => {
+      this.gameObj.play("detect");
+      k.wait(1, () => {
+        this.gameObj.enterState("jump");
+      });
+    });
+
+    this.gameObj.onStateEnter("jump", () => {
+      this.gameObj.play("jump");
+      k.wait(0.5, () => {
+        this.gameObj.use(k.z(0));
+        this.gameObj.enterState("drop");
+      });
+    });
+
+    this.gameObj.onStateUpdate("jump", () => {
+      this.gameObj.move(100, -50);
+    });
+
+    this.gameObj.onStateUpdate("drop", () => {
+      this.gameObj.move(0, 60);
     });
   }
 }
