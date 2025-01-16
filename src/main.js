@@ -30,6 +30,19 @@ k.scene("game", () => {
   k.add([k.rect(k.width(), k.height()), k.color(k.Color.fromHex(COLORS.BLUE))]);
   k.add([k.sprite("background"), k.pos(0, -10), k.z(1)]);
 
+  const score = k.add([
+    k.text("000000", { font: "nes", size: 8 }),
+    k.pos(192, 197),
+    k.z(2),
+  ]);
+
+  const roundCount = k.add([
+    k.text("1", { font: "nes", size: 8 }),
+    k.pos(42, 182),
+    k.z(2),
+    k.color(COLORS.GREEN2),
+  ]);
+
   const dog = new Dog(k.vec2(0, k.center().y));
   dog.setDogAI();
 
