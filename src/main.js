@@ -43,8 +43,17 @@ k.scene("game", () => {
     k.color(COLORS.GREEN2),
   ]);
 
+  const duckIconColors = k.add([k.pos(95, 198)]);
+  for (let i = 0; i < 9; i++) {
+    duckIconColors.add([
+      k.rect(9, 9),
+      k.pos(i * 9, 0),
+      //k.color(k.Color.fromHex(COLORS.RED)),
+    ]);
+  }
+
   const dog = new Dog(k.vec2(0, k.center().y));
-  dog.setDogAI();
+  dog.searchForDucks();
 
   const cursor = k.add([
     k.sprite("cursor"),
