@@ -46,12 +46,10 @@ k.scene("game", () => {
   ]);
 
   const duckIconColors = k.add([k.pos(95, 198)]);
-  for (let i = 0; i < 9; i++) {
-    duckIconColors.add([
-      k.rect(9, 9),
-      k.pos(i * 9, 0),
-      //k.color(k.Color.fromHex(COLORS.RED)),
-    ]);
+  let duckIconPosX = 1;
+  for (let i = 0; i < 10; i++) {
+    duckIconColors.add([k.rect(7, 9), k.pos(duckIconPosX, 0), `duckIcon-${i}`]);
+    duckIconPosX += 8;
   }
 
   const dog = new Dog(k.vec2(0, k.center().y));
@@ -64,11 +62,11 @@ k.scene("game", () => {
 
   gameManager.state.onStateEnter("hunt-start", () => {
     gameManager.currentHuntNb++;
-    const duck = new Duck();
+    const duck = new Duck(gameManager.currentHuntNb - 1);
   });
 
   gameManager.state.onStateEnter("hunt-end", () => {
-    if (gameManager.currentHuntNb <= 10) {
+    if (gameManager.currentHuntNb <= 9) {
       gameManager.state.enterState("hunt-start");
     }
   });

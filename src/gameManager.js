@@ -3,7 +3,7 @@ import k from "./kaplayCtx";
 class GameManager {
   currentScore = 0;
   currentRoundNb = 1;
-  currentHuntNb = 1;
+  currentHuntNb = 0;
 
   constructor() {
     this.state = k.add([

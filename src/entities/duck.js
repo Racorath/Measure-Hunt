@@ -1,10 +1,12 @@
 import gameManager from "../gameManager";
+import { COLORS } from "../constants";
 import k from "../kaplayCtx";
 
 export default class Duck {
   speed = 100;
 
-  constructor() {
+  constructor(id) {
+    this.id = id;
     const startingPos = [
       k.vec2(80, k.center().y + 40),
       k.vec2(k.center().x, k.center().y + 40),
@@ -70,12 +72,15 @@ export default class Duck {
 
       if (this.gameObj.pos.y > k.height() - 70) {
         k.destroy(this.gameObj);
+        delete this; // Destroy the Duck instance
         gameManager.state.enterState("hunt-end");
       }
     });
 
     this.gameObj.onClick(() => {
       this.gameObj.play("shot");
+      const duckIcon = k.get(`duckIcon-${this.id}`, { recursive: true })[0];
+      if (duckIcon) duckIcon.use(k.color(k.Color.fromHex(COLORS.RED)));
       this.gameObj.enterState("shot");
     });
   }
