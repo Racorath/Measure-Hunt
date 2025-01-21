@@ -52,6 +52,8 @@ k.scene("game", () => {
     duckIconPosX += 8;
   }
 
+  k.add([k.rect(22, 8), k.pos(25, 198), k.z(2), k.color(0, 0, 0)]);
+
   const dog = new Dog(k.vec2(0, k.center().y));
   dog.searchForDucks();
 
