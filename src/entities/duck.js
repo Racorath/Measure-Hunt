@@ -80,7 +80,7 @@ export default class Duck {
         k.destroy(this.gameObj);
         delete this; // Destroy the Duck instance
         gameManager.nbBulletsLeft = 3;
-        gameManager.stateMachine.enterState("hunt-end");
+        gameManager.stateMachine.enterState("duck-hunted");
       }
     });
 
@@ -105,7 +105,7 @@ export default class Duck {
       sky.color = k.Color.fromHex(COLORS.BLUE);
       delete this; // Destroy the Duck instance
       gameManager.nbBulletsLeft = 3;
-      gameManager.stateMachine.enterState("hunt-end");
+      gameManager.stateMachine.enterState("duck-escaped");
     });
   }
 }

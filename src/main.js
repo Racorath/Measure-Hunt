@@ -78,6 +78,46 @@ k.scene("game", () => {
     }
   });
 
+  gameManager.stateMachine.onStateEnter("duck-hunted", async () => {
+    dog.gameObj.play("catch");
+    await k.tween(
+      dog.gameObj.pos.y,
+      90,
+      0.4,
+      (newY) => (dog.gameObj.pos.y = newY),
+      k.easings.linear
+    );
+    await k.wait(1);
+    await k.tween(
+      dog.gameObj.pos.y,
+      120,
+      0.4,
+      (newY) => (dog.gameObj.pos.y = newY),
+      k.easings.linear
+    );
+    gameManager.stateMachine.enterState("hunt-end");
+  });
+
+  gameManager.stateMachine.onStateEnter("duck-escaped", async () => {
+    dog.gameObj.play("mock");
+    await k.tween(
+      dog.gameObj.pos.y,
+      90,
+      0.4,
+      (newY) => (dog.gameObj.pos.y = newY),
+      k.easings.linear
+    );
+    await k.wait(1);
+    await k.tween(
+      dog.gameObj.pos.y,
+      120,
+      0.4,
+      (newY) => (dog.gameObj.pos.y = newY),
+      k.easings.linear
+    );
+    gameManager.stateMachine.enterState("hunt-end");
+  });
+
   const cursor = k.add([
     k.sprite("cursor"),
     k.anchor("center"),
