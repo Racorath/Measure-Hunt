@@ -79,6 +79,7 @@ export default class Duck {
       if (this.gameObj.pos.y > k.height() - 70) {
         k.destroy(this.gameObj);
         delete this; // Destroy the Duck instance
+        sky.color = k.Color.fromHex(COLORS.BLUE);
         gameManager.nbBulletsLeft = 3;
         gameManager.stateMachine.enterState("duck-hunted");
       }
