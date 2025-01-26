@@ -45,10 +45,10 @@ k.scene("game", () => {
     k.color(COLORS.GREEN2),
   ]);
 
-  const duckIconColors = k.add([k.pos(95, 198)]);
+  const duckIcons = k.add([k.pos(95, 198)]);
   let duckIconPosX = 1;
   for (let i = 0; i < 10; i++) {
-    duckIconColors.add([k.rect(7, 9), k.pos(duckIconPosX, 0), `duckIcon-${i}`]);
+    duckIcons.add([k.rect(7, 9), k.pos(duckIconPosX, 0), `duckIcon-${i}`]);
     duckIconPosX += 8;
   }
 
@@ -64,7 +64,20 @@ k.scene("game", () => {
 
   gameManager.stateMachine.onStateEnter("round-start", () => {
     gameManager.currentRoundNb++;
+    roundCount.text = gameManager.currentRoundNb;
     gameManager.stateMachine.enterState("hunt-start");
+  });
+
+  gameManager.stateMachine.onStateEnter("round-end", () => {
+    if (gameManager.nbDucksShotInRound < 6) {
+      k.go("game-over");
+      return;
+    }
+    gameManager.nbDucksShotInRound = 0;
+    for (const duckIcon of duckIcons.children) {
+      duckIcon.color = k.color(255, 255, 255);
+    }
+    gameManager.stateMachine.enterState("round-start");
   });
 
   gameManager.stateMachine.onStateEnter("hunt-start", () => {
@@ -120,5 +133,7 @@ k.scene("game", () => {
     cursor.moveTo(k.mousePos());
   });
 });
+
+k.scene("game-over", () => {});
 
 k.go("main-menu");
