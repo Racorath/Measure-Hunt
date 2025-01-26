@@ -70,6 +70,7 @@ k.scene("game", () => {
   gameManager.stateMachine.onStateEnter("hunt-start", () => {
     gameManager.currentHuntNb++;
     const duck = new Duck(gameManager.currentHuntNb - 1);
+    duck.setDuckBehavior();
   });
 
   gameManager.stateMachine.onStateEnter("hunt-end", () => {

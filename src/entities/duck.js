@@ -33,7 +33,9 @@ export default class Duck {
     this.angle = angles[chosenAngleIndex];
     // make duck face the correct direction
     if (this.angle.x < 0) this.gameObj.flipX = true;
+  }
 
+  setDuckBehavior() {
     this.gameObj.onStateUpdate("fly", () => {
       if (
         this.timer < 5 &&
