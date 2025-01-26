@@ -76,7 +76,11 @@ k.scene("game", () => {
   gameManager.stateMachine.onStateEnter("hunt-end", () => {
     if (gameManager.currentHuntNb <= 9) {
       gameManager.stateMachine.enterState("hunt-start");
+      return;
     }
+
+    gameManager.currentHuntNb = 0;
+    gameManager.stateMachine.enterState("round-end");
   });
 
   gameManager.stateMachine.onStateEnter("duck-hunted", () => {
