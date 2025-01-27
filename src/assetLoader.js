@@ -5,7 +5,7 @@ export function loadAssets() {
   k.loadSprite("menu", "./menu.png");
   k.loadSprite("cursor", "./cursor.png");
   k.loadFont("nes", "./fonts/nintendo-nes-font/nintendo-nes-font.ttf");
-  k.loadSprite("dog", "./dog.png", {
+  k.loadSprite("dog", "./dog-alt.png", {
     sliceX: 4,
     sliceY: 3,
     anims: {
