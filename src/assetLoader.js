@@ -17,7 +17,7 @@ export function loadAssets() {
       mock: { from: 10, to: 11, loop: true },
     },
   });
-  k.loadSprite("duck", "./duck.png", {
+  k.loadSprite("duck", "./duck-alt.png", {
     sliceX: 8,
     sliceY: 1,
     anims: {
