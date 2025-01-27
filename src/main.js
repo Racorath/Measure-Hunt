@@ -62,9 +62,28 @@ k.scene("game", () => {
   const dog = new Dog(k.vec2(0, k.center().y));
   dog.searchForDucks();
 
-  gameManager.stateMachine.onStateEnter("round-start", () => {
+  gameManager.stateMachine.onStateEnter("round-start", async () => {
     gameManager.currentRoundNb++;
     roundCount.text = gameManager.currentRoundNb;
+    const textBox = k.add([
+      k.sprite("text-box"),
+      k.anchor("center"),
+      k.pos(k.center().x, k.center().y - 50),
+      k.z(3),
+    ]);
+    textBox.add([
+      k.text("ROUND", { font: "nes", size: 8 }),
+      k.anchor("center"),
+      k.pos(0, -10),
+    ]);
+    textBox.add([
+      k.text(gameManager.currentRoundNb, { font: "nes", size: 8 }),
+      k.anchor("center"),
+      k.pos(0, 4),
+    ]);
+
+    await k.wait(1);
+    k.destroy(textBox);
     gameManager.stateMachine.enterState("hunt-start");
   });
 
@@ -134,6 +153,22 @@ k.scene("game", () => {
   });
 });
 
-k.scene("game-over", () => {});
+k.scene("game-over", () => {
+  k.add([k.rect(k.width(), k.height()), k.color(0, 0, 0)]);
+  k.add([
+    k.text("GAME OVER!", { font: "nes", size: 8 }),
+    k.anchor("center"),
+    k.pos(k.center()),
+  ]);
+  k.add([
+    k.text("CLICK TO PLAY AGAIN!", { font: "nes", size: 8 }),
+    k.anchor("center"),
+    k.pos(k.center().x, k.center().y + 50),
+  ]);
+
+  k.onClick(() => {
+    k.go("game");
+  });
+});
 
 k.go("main-menu");

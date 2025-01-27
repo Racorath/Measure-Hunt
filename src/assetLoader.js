@@ -27,4 +27,5 @@ export function loadAssets() {
       fall: 7,
     },
   });
+  k.loadSprite("text-box", "./text-box.png");
 }
