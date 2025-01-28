@@ -28,4 +28,5 @@ export function loadAssets() {
     },
   });
   k.loadSprite("text-box", "./text-box.png");
+  k.loadSound("gun-shot", "./sounds/gun-shot.wav");
 }
