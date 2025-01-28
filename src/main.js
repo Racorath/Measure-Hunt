@@ -25,7 +25,7 @@ k.scene("main-menu", () => {
   k.add([
     k.text(formatScore(bestScore, 6), { font: "nes", size: 8 }),
     k.pos(150, 184),
-    k.color(COLORS.GREEN),
+    k.color(COLORS.RED),
   ]);
 
   k.onClick(() => {
@@ -48,7 +48,7 @@ k.scene("game", () => {
     k.text("1", { font: "nes", size: 8 }),
     k.pos(42, 182),
     k.z(2),
-    k.color(COLORS.GREEN2),
+    k.color(COLORS.RED),
   ]);
 
   const duckIcons = k.add([k.pos(95, 198)]);
