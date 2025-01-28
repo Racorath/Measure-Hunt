@@ -52,7 +52,7 @@ export default class Duck {
         this.gameObj.play(currentAnim);
       }
 
-      if (this.gameObj.pos.y < 0 || this.gameObj.pos.y > k.height() - 70) {
+      if (this.gameObj.pos.y < -10 || this.gameObj.pos.y > k.height() - 70) {
         this.angle.y = -this.angle.y;
 
         const currentAnim =
