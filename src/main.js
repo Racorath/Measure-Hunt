@@ -68,8 +68,8 @@ k.scene("game", () => {
   const dog = new Dog(k.vec2(0, k.center().y));
   dog.searchForDucks();
 
-  gameManager.stateMachine.onStateEnter("round-start", async () => {
-    gameManager.preySpeed += 10;
+  gameManager.stateMachine.onStateEnter("round-start", async (isFirstRound) => {
+    if (!isFirstRound) gameManager.preySpeed += 50;
     gameManager.currentRoundNb++;
     roundCount.text = gameManager.currentRoundNb;
     const textBox = k.add([
@@ -129,6 +129,7 @@ k.scene("game", () => {
   });
 
   gameManager.stateMachine.onStateEnter("duck-hunted", () => {
+    gameManager.nbBulletsLeft = 3;
     dog.catchFallenDuck();
   });
 

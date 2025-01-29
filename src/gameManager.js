@@ -6,7 +6,7 @@ class GameManager {
   currentHuntNb = 0;
   nbBulletsLeft = 3;
   nbDucksShotInRound = 0;
-  preySpeed = 100;
+  preySpeed = 200;
 
   constructor() {
     this.stateMachine = k.add([
