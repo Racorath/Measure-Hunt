@@ -72,6 +72,7 @@ k.scene("game", () => {
     "round-start",
     async (isFirstRound) => {
       if (!isFirstRound) gameManager.preySpeed += 50;
+      k.play("ui-appear");
       gameManager.currentRoundNb++;
       roundCount.text = gameManager.currentRoundNb;
       const textBox = k.add([
