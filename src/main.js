@@ -105,6 +105,11 @@ k.scene("game", () => {
         k.go("game-over");
         return;
       }
+
+      if (gameManager.nbDucksShotInRound === 10) {
+        gameManager.currentScore += 500;
+      }
+
       gameManager.nbDucksShotInRound = 0;
       for (const duckIcon of duckIcons.children) {
         duckIcon.color = k.color(255, 255, 255);
@@ -198,7 +203,12 @@ k.scene("game", () => {
     cursor.moveTo(k.mousePos());
   });
 
+  const forestAmbianceSound = k.play("forest-ambiance", {
+    volume: 0.1,
+    loop: true,
+  });
   k.onSceneLeave(() => {
+    forestAmbianceSound.stop();
     roundStartController.cancel();
     roundEndController.cancel();
     huntStartController.cancel();
@@ -214,9 +224,18 @@ k.scene("game", () => {
       if (k.getTreeRoot().paused) {
         gameManager.isGamePaused = true;
         audioCtx.suspend();
+        k.add([
+          k.text("PAUSED", { font: "nes", size: 8 }),
+          k.pos(5, 5),
+          k.z(3),
+          "paused-text",
+        ]);
       } else {
         gameManager.isGamePaused = false;
         audioCtx.resume();
+
+        const pausedText = k.get("paused-text")[0];
+        if (pausedText) k.destroy(pausedText);
       }
     }
   });
