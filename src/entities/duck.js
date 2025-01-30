@@ -43,7 +43,7 @@ export default class Duck {
     this.gameObj.onStateUpdate("fly", () => {
       if (
         this.#timer < this.#timeBeforeEscape &&
-        (this.gameObj.pos.x > k.width() + 10 || this.gameObj.pos.x < 10)
+        (this.gameObj.pos.x > k.width() + 10 || this.gameObj.pos.x < -10)
       ) {
         this.angle.x = -this.angle.x;
         this.angle.y = this.angle.y;

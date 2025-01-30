@@ -17,6 +17,14 @@ k.scene("main-menu", () => {
     k.pos(k.center().x, k.center().y + 40),
   ]);
 
+  k.add([
+    k.text("MADE BY JSLEGEND", { font: "nes", size: 8 }),
+    k.z(2),
+    k.pos(10, 215),
+    k.color(COLORS.BLUE),
+    k.opacity(0.5),
+  ]);
+
   let bestScore = k.getData("best-score");
   if (!bestScore) {
     bestScore = 0;
@@ -248,14 +256,9 @@ k.scene("game-over", () => {
     k.anchor("center"),
     k.pos(k.center()),
   ]);
-  k.add([
-    k.text("CLICK TO PLAY AGAIN!", { font: "nes", size: 8 }),
-    k.anchor("center"),
-    k.pos(k.center().x, k.center().y + 50),
-  ]);
 
-  k.onClick(() => {
-    k.go("game");
+  k.wait(2, () => {
+    k.go("main-menu");
   });
 });
 
