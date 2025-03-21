@@ -650,7 +650,7 @@ k.scene("game-over", (params = { score: 0 }) => {
       k.pos(k.center().x, k.center().y + 10),
     ]);
 
-    // SUBMIT SOLO SCORE TO DATABASE HERE
+    // SUBMIT SOLO SCORE TO DATABASE HERE using "params.score"
 
   }
 
