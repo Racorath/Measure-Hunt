@@ -235,4 +235,9 @@ export default class Duck {
       gameManager.stateMachine.enterState("duck-escaped");
     });
   }
+  stopFlappingSound() {
+    if (this.flappingSound) {
+      this.flappingSound.stop();
+    }
+  }
 }

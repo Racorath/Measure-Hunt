@@ -134,10 +134,19 @@ k.scene("game", () => {
       k.color(COLORS.RED),
     ]);
   } else {
+
+    const turnText = k.add([
+      k.text("TURN:", { font: "nes", size: 5 }),
+      k.pos(193, 202),
+      k.z(2),
+      k.color(COLORS.WHITE),
+      "turnText"
+    ]);
+
     // Display current player in PVP mode
     const currentPlayerText = k.add([
       k.text("P1", { font: "nes", size: 8 }),
-      k.pos(220, 202), // Position current player text at the right place
+      k.pos(220, 200), // Position current player text at the right place
       k.z(2),
       k.color(COLORS.RED),
       "currentPlayerText"
@@ -350,19 +359,15 @@ k.scene("game", () => {
         // Solo mode game over conditions
         if (gameManager.currentMeasure < 0 ||
             gameManager.currentMeasure > 2 * gameManager.goalMeasure) {
-          k.go("game-over");
-          return;
-        }
-    
-        // Check if player reached the goal exactly
-        if (gameManager.currentMeasure === gameManager.goalMeasure) {
-          k.go("game-over");
+            var finalScore = gameManager.currentScore;
+            k.go("game-over", { score: finalScore });
           return;
         }
     
         // Check if all rounds are completed
         if (gameManager.currentRoundNb >= MAX_ROUNDS) {
-          k.go("game-over");
+          var finalScore = gameManager.currentScore;
+          k.go("game-over", { score: finalScore });
           return;
         }
     
@@ -421,15 +426,16 @@ k.scene("game", () => {
     }
   );
 
+let currentDuck;
   const huntStartController = gameManager.stateMachine.onStateEnter(
     "hunt-start",
     () => {
       gameManager.currentHuntNb++;
-      const duck = new Duck(
+      currentDuck  = new Duck(
         gameManager.currentHuntNb - 1,
         gameManager.preySpeed
       );
-      duck.setBehavior();
+      currentDuck .setBehavior();
     }
   );
 
@@ -559,19 +565,59 @@ k.scene("game", () => {
     duckHunterController.cancel();
     duckEscapedController.cancel();
     gameManager.initializeGameState();
+    k.setCursor("default");
+  });
+
+  const backButton = k.add([
+    k.rect(40, 15),
+    k.pos(10, 10),
+    k.color(COLORS.GRAY),
+    k.area(),
+    k.z(1),
+    k.opacity(0),
+    "back-button"
+  ]);
+  
+  const backButtonText = backButton.add([
+    k.text("BACK", { font: "nes", size: 6 }),
+    k.anchor("center"),
+    k.pos(20, 7.5),
+    k.color(COLORS.WHITE),
+    k.opacity(0),
+  ]);
+  
+  k.onClick("back-button", () => {
+    if (currentDuck) {
+      currentDuck.stopFlappingSound(); // Stop the flapping sound for the current duck
+    }
+    k.getTreeRoot().paused = !k.getTreeRoot().paused;
+    audioCtx.resume();
+    gameManager.isGamePaused = false;
+    if (backButton.opacity > 0) {
+      k.setCursor("default");
+      k.go("main-menu"); // Go back to main menu
+    }
   });
 
   k.onKeyPress((key) => {
     if (key === "p") {
+      backButton.opacity = 1;
+      backButtonText.opacity = 1;
       k.getTreeRoot().paused = !k.getTreeRoot().paused;
       if (k.getTreeRoot().paused) {
         gameManager.isGamePaused = true;
         audioCtx.suspend();
+        k.setCursor("default");
+        if (currentDuck) {
+          currentDuck.stopFlappingSound(); // Stop the flapping sound for the current duck
+        }
         k.add([k.text("PAUSED", { font: "nes", size: 8 }), k.pos(5, 5), k.z(3), "paused-text"]);
       } else {
         gameManager.isGamePaused = false;
         audioCtx.resume();
-
+        k.setCursor(gameManager.currentPlayer === 1 ? "cursor1" : "cursor2"); // Restore game cursor
+        backButton.opacity = 0;
+        backButtonText.opacity = 0;
         const pausedText = k.get("paused-text")[0];
         if (pausedText) k.destroy(pausedText);
       }
@@ -580,7 +626,7 @@ k.scene("game", () => {
 });
 
 // Set up game-over scene
-k.scene("game-over", () => {
+k.scene("game-over", (params = { score: 0 }) => {
   k.add([k.rect(k.width(), k.height()), k.color(0, 0, 0)]);
 
   if (gameManager.gameMode === "pvp") {
@@ -598,6 +644,14 @@ k.scene("game-over", () => {
       k.anchor("center"),
       k.pos(k.center()),
     ]);
+    k.add([
+      k.text("YOUR SCORE: " + params.score, { font: "nes", size: 7 }),
+      k.anchor("center"),
+      k.pos(k.center().x, k.center().y + 10),
+    ]);
+
+    // SUBMIT SOLO SCORE TO DATABASE HERE
+
   }
 
   k.wait(2, () => {
