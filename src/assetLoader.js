@@ -1,9 +1,13 @@
 import k from "./kaplayCtx";
-
+ 
 export function loadAssets() {
   k.loadSprite("background", "./graphics/background.png");
+  k.loadSprite("backgroundpvp", "./graphics/backgroundpvp.png");
   k.loadSprite("menu", "./graphics/menu.png");
+  k.loadSprite("choosemode", "./graphics/choosemode.png");
   k.loadSprite("cursor", "./graphics/cursor.png");
+  k.loadSprite("cursor1", "./graphics/cursor1.png");
+  k.loadSprite("cursor2", "./graphics/cursor2.png");
   k.loadFont("nes", "./fonts/nintendo-nes-font/nintendo-nes-font.ttf");
   k.loadSprite("dog", "./graphics/dog.png", {
     sliceX: 4,
@@ -28,6 +32,7 @@ export function loadAssets() {
     },
   });
   k.loadSprite("text-box", "./graphics/text-box.png");
+  k.loadSprite("long-text-box", "./graphics/long-text-box.png");
   k.loadSound("gun-shot", "./sounds/gun-shot.wav");
   k.loadSound("quacking", "./sounds/quacking.wav");
   k.loadSound("flapping", "./sounds/flapping.ogg");
