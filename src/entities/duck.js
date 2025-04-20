@@ -269,6 +269,10 @@ export default class Duck {
       }
     }
 
+    // Split standard values into positive and negative
+    let positiveValues = standardValues.filter(v => v.decimal >= 0);
+    let negativeValues = standardValues.filter(v => v.decimal < 0);
+
     // Choose a value based on how close we are to the goal measure
     let chosenValue;
 
@@ -310,17 +314,33 @@ export default class Duck {
 
         chosenValue = bestHelpfulValue;
       } else {
-        // Use a random standard value
-        chosenValue = k.choose(standardValues);
+        // Prevent consecutive negative ducks
+        if (gameManager.lastDuckValue !== null && gameManager.lastDuckValue < 0) {
+          // Previous duck was negative, so choose a positive value
+          chosenValue = k.choose(positiveValues);
+        } else {
+          // Previous duck was positive or null, so choose from all values
+          chosenValue = k.choose(standardValues);
+        }
       }
     } else {
-      // In PVP mode or first hunt, just use random values
-      chosenValue = k.choose(standardValues);
+      // In PVP mode or first hunt
+      // Prevent consecutive negative ducks
+      if (gameManager.lastDuckValue !== null && gameManager.lastDuckValue < 0) {
+        // Previous duck was negative, so choose a positive value
+        chosenValue = k.choose(positiveValues);
+      } else {
+        // Previous duck was positive or null, so choose from all values
+        chosenValue = k.choose(standardValues);
+      }
     }
 
     // Use the chosen value
     this.value = chosenValue.decimal; // Use decimal for calculations
     this.displayValue = chosenValue.display;
+
+    // Store the current value in gameManager for the next duck
+    gameManager.lastDuckValue = this.value;
 
     const startingPos = [
       k.vec2(80, k.center().y + 40),

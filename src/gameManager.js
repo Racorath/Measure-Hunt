@@ -7,6 +7,7 @@ class GameManager {
   p1Measure = 0; // Player 1's measure for PVP mode
   p2Measure = 0; // Player 2's measure for PVP mode
   pvpWinner = 0; // Store the winner in PVP mode
+  lastDuckValue = null; // Track the value of the last duck that appeared
   
   // Add lesson type properties
   lessonType = "measurements"; // Default to measurements
@@ -76,6 +77,7 @@ class GameManager {
     this.p2Measure = 0;
     this.pvpWinner = 0;
     this.pvpRound = 1; // Always round 1 for PVP mode
+    this.lastDuckValue = null; // Reset the last duck value
   }
  
   // Helper function to get current player's measure
