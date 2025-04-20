@@ -1,0 +1,196 @@
+\Measure-Hunt\teacher-settings.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measure Hunt - Teacher Settings</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #9fa2cb;
+            color: white;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .lesson-box {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .lesson-title {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .enable-btn {
+            background-color: #808080;
+            color: white;
+        }
+        .enable-btn.active {
+            background-color: #cb7387;
+        }
+        .difficulty-btn {
+            background-color: #808080;
+            color: white;
+            opacity: 0.5;
+        }
+        .difficulty-btn.enabled {
+            opacity: 1;
+        }
+        .difficulty-btn.active {
+            background-color: #cb7387;
+        }
+        .save-button {
+            display: block;
+            margin: 30px auto;
+            background-color: #cb7387;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .message {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <h1>Measure Hunt - Teacher Settings</h1>
+    
+    <div class="container">
+        <!-- Whole Numbers Section -->
+        <div class="lesson-box">
+            <div class="lesson-title">WHOLE NUMBERS</div>
+            <button id="whole-numbers-enable" class="enable-btn">ENABLE</button><br>
+            <button id="whole-numbers-beginner" class="difficulty-btn">BEGINNER</button>
+            <button id="whole-numbers-advanced" class="difficulty-btn">ADVANCED</button>
+        </div>
+        
+        <!-- Fractions Section -->
+        <div class="lesson-box">
+            <div class="lesson-title">FRACTIONS</div>
+            <button id="fractions-enable" class="enable-btn">ENABLE</button><br>
+            <button id="fractions-beginner" class="difficulty-btn">BEGINNER</button>
+            <button id="fractions-advanced" class="difficulty-btn">ADVANCED</button>
+        </div>
+        
+        <!-- Measurements Section -->
+        <div class="lesson-box">
+            <div class="lesson-title">MEASUREMENTS</div>
+            <button id="measurements-enable" class="enable-btn">ENABLE</button><br>
+            <button id="measurements-beginner" class="difficulty-btn">BEGINNER</button>
+            <button id="measurements-advanced" class="difficulty-btn">ADVANCED</button>
+        </div>
+        
+        <!-- Decimals Section -->
+        <div class="lesson-box">
+            <div class="lesson-title">DECIMALS</div>
+            <button id="decimals-enable" class="enable-btn">ENABLE</button><br>
+            <button id="decimals-beginner" class="difficulty-btn">BEGINNER</button>
+            <button id="decimals-advanced" class="difficulty-btn">ADVANCED</button>
+        </div>
+    </div>
+    
+    <button id="save-btn" class="save-button">SAVE SETTINGS</button>
+    <div id="message" class="message">Settings saved successfully!</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Default settings
+            let lessonType = localStorage.getItem('measure-hunt-lesson') || 'measurements';
+            let difficultyLevel = localStorage.getItem('measure-hunt-difficulty') || 'beginner';
+            
+            // All lesson types
+            const lessonTypes = ['whole-numbers', 'fractions', 'measurements', 'decimals'];
+            
+            // Initialize UI based on saved settings
+            updateUI();
+            
+            // Add click handlers to all enable buttons
+            lessonTypes.forEach(type => {
+                const enableBtn = document.getElementById(`${type}-enable`);
+                if (enableBtn) {
+                    enableBtn.addEventListener('click', function() {
+                        lessonType = type;
+                        updateUI();
+                    });
+                }
+                
+                // Add click handlers to difficulty buttons
+                ['beginner', 'advanced'].forEach(difficulty => {
+                    const difficultyBtn = document.getElementById(`${type}-${difficulty}`);
+                    if (difficultyBtn) {
+                        difficultyBtn.addEventListener('click', function() {
+                            if (lessonType === type) { // Only work if this lesson is enabled
+                                difficultyLevel = difficulty;
+                                updateUI();
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Save button click handler
+            document.getElementById('save-btn').addEventListener('click', function() {
+                localStorage.setItem('measure-hunt-lesson', lessonType);
+                localStorage.setItem('measure-hunt-difficulty', difficultyLevel);
+                
+                // Show success message
+                const message = document.getElementById('message');
+                message.style.opacity = '1';
+                setTimeout(() => {
+                    message.style.opacity = '0';
+                }, 2000);
+            });
+            
+            // Update UI based on current settings
+            function updateUI() {
+                lessonTypes.forEach(type => {
+                    const isActive = type === lessonType;
+                    
+                    // Update enable button
+                    const enableBtn = document.getElementById(`${type}-enable`);
+                    if (enableBtn) {
+                        enableBtn.textContent = isActive ? 'ENABLED' : 'ENABLE';
+                        enableBtn.classList.toggle('active', isActive);
+                    }
+                    
+                    // Update difficulty buttons
+                    ['beginner', 'advanced'].forEach(difficulty => {
+                        const difficultyBtn = document.getElementById(`${type}-${difficulty}`);
+                        if (difficultyBtn) {
+                            const isEnabled = type === lessonType;
+                            const isActiveDifficulty = difficulty === difficultyLevel && isEnabled;
+                            
+                            difficultyBtn.classList.toggle('enabled', isEnabled);
+                            difficultyBtn.classList.toggle('active', isActiveDifficulty);
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

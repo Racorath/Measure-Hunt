@@ -1,13 +1,38 @@
 import k from "./kaplayCtx";
- 
+
 export function loadAssets() {
+
   k.loadSprite("background", "./graphics/background.png");
   k.loadSprite("backgroundpvp", "./graphics/backgroundpvp.png");
+  k.loadSprite("backgroundwhole", "./graphics/backgroundwhole.png");
+  k.loadSprite("backgroundfraction", "./graphics/backgroundfraction.png");
+  k.loadSprite("backgroundmeasure", "./graphics/backgroundmeasure.png");
+  k.loadSprite("backgrounddecimal", "./graphics/backgrounddecimal.png");
   k.loadSprite("menu", "./graphics/menu.png");
   k.loadSprite("choosemode", "./graphics/choosemode.png");
   k.loadSprite("cursor", "./graphics/cursor.png");
   k.loadSprite("cursor1", "./graphics/cursor1.png");
   k.loadSprite("cursor2", "./graphics/cursor2.png");
+  k.loadSprite("pausebutton", "./graphics/pausebutton.png"); // Add pausebutton sprite
+  k.loadSprite("blackprogress", "./graphics/blackprogress.png");
+
+  // Add pie sprite with horizontal slicing for fraction progress
+  k.loadSprite("pie", "./graphics/pie.png", {
+    sliceX: 8, // 8 horizontal slices for different fill levels
+    sliceY: 1,
+    anims: {
+      // Define frames for each fill level (0/8 through 8/8)
+      "fill-0": 0,
+      "fill-1": 1,
+      "fill-2": 2,
+      "fill-3": 3,
+      "fill-4": 4,
+      "fill-5": 5,
+      "fill-6": 6, 
+      "fill-7": 7
+    }
+  });
+
   k.loadFont("nes", "./fonts/nintendo-nes-font/nintendo-nes-font.ttf");
   k.loadSprite("dog", "./graphics/dog.png", {
     sliceX: 4,
